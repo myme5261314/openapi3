@@ -219,6 +219,8 @@ class Model:
 
         # collect the data into this model
         for k, v in data.items():
+            if k not in schema.properties:
+                continue
             prop = schema.properties[k]
 
             if prop.type == 'array':

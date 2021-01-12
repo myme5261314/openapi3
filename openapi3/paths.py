@@ -110,7 +110,7 @@ class Operation(ObjectBase):
         # gather all operations into the spec object
         if self.operationId is not None:
             # TODO - how to store without an operationId?
-            formatted_operation_id = self.operationId.replace(" ", "_")
+            formatted_operation_id = self.operationId.replace(" ", "_").replace("-", "_")
             self._root._operation_map[formatted_operation_id] = self
 
         # TODO - maybe make this generic
@@ -136,7 +136,7 @@ class Operation(ObjectBase):
             self._request.auth = requests.auth.HTTPDigestAuth(*value)
 
         if ss.type == 'http' and ss.scheme == 'bearer':
-            header = ss.bearerFormat or 'Bearer {}'
+            header = 'Bearer {}'
             self._request.headers['Authorization'] = header.format(value)
 
         if ss.type == 'mutualTLS':
