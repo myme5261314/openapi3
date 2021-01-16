@@ -274,7 +274,10 @@ class Operation(ObjectBase):
 
             raise RuntimeError(err_msg.format(*err_var))
 
-        content_type   = result.headers['Content-Type']
+        content_type = result.headers['Content-Type']
+        # If no expected media specified in the spec, just return the code and raw response data.
+        if expected_response.content is None:
+            return {"status_code": status_code, "data": result}
         expected_media = expected_response.content.get(content_type, None)
 
         if expected_media is None and '/' in content_type:
